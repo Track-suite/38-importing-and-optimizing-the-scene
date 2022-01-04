@@ -1,3 +1,4 @@
+
 void main()
 {
     float distanceToCenter = distance(gl_PointCoord, vec2(0.5));

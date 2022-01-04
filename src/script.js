@@ -67,9 +67,32 @@ const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 
 // Portal light material
 const portalLightMaterial = new THREE.ShaderMaterial({
+    uniforms:
+    {
+        uColorStart: { value: new THREE.Color(debugObject.portalColorStart)},
+        uColorEnd: {value: new THREE.Color(debugObject.portalColorEnd)},
+        uTime: {value: 0}
+    },
     vertexShader: portalVertexShader,
     fragmentShader: portalFragmentShader
 })
+
+debugObject.portalColorStart = '#ff0000'
+debugObject.portalColorEnd = '#0000ff'
+
+gui
+    .addColor(debugObject, 'portalColorStart')
+    .onChange(() =>
+    {
+        portalLightMaterial.uniforms.uColorStart.value.set(debugObject.portalColorStart)
+    })
+
+gui
+    .addColor(debugObject, 'portalColorEnd')
+    .onChange(() =>
+    {
+        portalLightMaterial.uniforms.uColorEnd.value.set(debugObject.portalColorEnd)
+    })
 
 /**
  * Model
@@ -221,7 +244,7 @@ const tick = () =>
 
      // Update materials
      firefliesMaterial.uniforms.uTime.value = elapsedTime
-
+     portalLightMaterial.uniforms.uTime.value = elapsedTime
     // Update controls
     controls.update()
 
